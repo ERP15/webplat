@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Web Platforms — Presentation & Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <span class="ribbon">Project</span>
+        <div class="logo">Web Platforms</div>
+      </div>
+      <nav class="main-nav">
+        <a href="#home" class="active">Home</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#presentation">Presentation</a>
+        <a href="report.html">Report</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero flipped" id="home">
+      <div class="hero-overlay"></div>
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <h1>WELCOME TO WEB PLATFORMS</h1>
+          <p class="lead">Exploring modern web platforms, best practices, and our project demo — built with a techy, modern design.</p>
+          <div class="hero-actions">
+            <a class="cta" href="#presentation">Watch Presentation</a>
+            <a class="cta ghost" href="report.html">Open Report</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cards-section container" id="gallery">
+      <h2>Explore Highlights</h2>
+      <p class="muted">Quick preview of content and resources — click any card to open details.</p>
+
+      <div class="cards-grid">
+        <article class="card">
+          <div class="card-media" style="background-image:linear-gradient(180deg,#fbc2eb 0%,#a6c1ee 100%)"></div>
+          <div class="card-body">
+            <h3>Project Overview</h3>
+            <p class="muted">Short summary and goals of our platform.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-media" style="background-image:linear-gradient(180deg,#fad0c4 0%,#ffd1ff 100%)"></div>
+          <div class="card-body">
+            <h3>Demo Clips</h3>
+            <p class="muted">Short clips from the project video and demos.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-media" style="background-image:linear-gradient(180deg,#ffecd2 0%,#fcb69f 100%)"></div>
+          <div class="card-body">
+            <h3>Design System</h3>
+            <p class="muted">Components, colors and guidelines used in the project.</p>
+          </div>
+        </article>
+
+        <article class="card highlight">
+          <div class="card-media" style="background:linear-gradient(90deg,#ffd200,#fff4b1)"></div>
+          <div class="card-body">
+            <h3>Explore Our Slides</h3>
+            <p class="muted">Open the editable slide deck and guidelines.</p>
+          </div>
+        </article>
+
+all      </div>
+    </section>
+
+    <section id="presentation" class="presentation container">
+      <h2>Our Video Presentation</h2>
+      <div class="video-card">
+        <video id="projVideo" controls poster="poster.png">
+          <source src="presentation.mp4" type="video/mp4">
+          Your browser does not support the video tag. Add a file named <strong>presentation.mp4</strong> to the project root or replace this block with a YouTube embed iframe.
+        </video>
+        <div class="video-instructions">
+          <p><strong>How to update:</strong> Place your MP4 at <code>/presentation.mp4</code> or replace the <code>&lt;video&gt;</code> with an iframe using your YouTube embed link.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Made by Team — Web Platforms</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

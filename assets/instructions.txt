@@ -1,0 +1,23 @@
+Instructions for the project website:
+
+1) Add your video:
+   - Name your MP4 file "presentation.mp4" and place it in the project root (same folder as index.html).
+   - Or replace the <video> block in index.html with a YouTube iframe embed.
+
+2) Editing slides:
+   - Open report.html in your browser (or in VS Code Live Preview).
+   - Click any text in the slides to edit. Use the arrow keys or the Prev/Next buttons to navigate.
+   - Use the "Download HTML (copy)" button to save the slide content as an HTML file.
+
+3) Creating a PowerPoint (.pptx):
+   - The easiest approach: copy the slide content into PowerPoint or Google Slides and apply the same color scheme.
+   - Use images/screenshots from the site and embed the presentation video by link or file.
+
+4) Design tips (techy / modern):
+   - Use bold headings, limited bullet points, high contrast (light text on dark background), and the color palette in style.css for accents.
+
+5) Replace assets:
+   - Add a poster image named "poster.png" to show as the video poster (optional).
+   - Save the provided hero image as `assets/hero.jpg` (this file will be used as the homepage banner). If you want, I can add the image for you — upload it or confirm and I'll place it in `assets/hero.jpg`.
+
+If you'd like, I can also add a ready-to-download sample PPTX or generate a README with more detailed guidance.
