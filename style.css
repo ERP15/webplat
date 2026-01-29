@@ -94,5 +94,14 @@ body{
 .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:.55rem .9rem;border-radius:8px;color:var(--muted);cursor:pointer}
 .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#051021;border:none}
 
+/* Thumbnails and small extras for report slides */
+.thumbs{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
+.thumbs button{border:none;background:transparent;padding:0;border-radius:6px;cursor:pointer;opacity:.85;border:1px solid rgba(255,255,255,0.03)}
+.thumbs button.active{outline:3px solid rgba(79,209,197,0.12);opacity:1}
+.thumbs img{width:84px;height:56px;object-fit:cover;border-radius:6px;display:block}
+.slide-counter{font-size:.95rem;color:var(--muted);align-self:center}
+
+.btn.active, .btn.autoplay-active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#051021;border:none}
+
 @media (max-width:1100px){.cards-grid{grid-template-columns:repeat(2,1fr)}.video-card{grid-template-columns:1fr}} 
 @media (max-width:700px){.main-nav{display:none}.hero{padding:3rem 0}.hero h1{font-size:1.6rem}.cards-grid{grid-template-columns:1fr}.container{padding:1rem}}

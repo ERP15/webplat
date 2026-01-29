@@ -35,9 +35,11 @@
 
       <div class="import-controls">
         <label class="upload-btn">Upload Slides<input id="slideUpload" type="file" accept="image/*" multiple hidden></label>
+        <button class="btn" id="loadSlides">Load slides 1–53</button>
         <button class="btn" id="importPdf">Import PDF Pages</button>
         <button class="btn" id="clearSlides">Clear Slides</button>
-        <a class="btn" id="downloadPDF" href="assets/report.pdf" download style="display:inline-block">Download Original PDF</a>
+        <span class="muted">Original PDF removed from repository</span>
+        <button class="btn" id="toggleAutoplay">Autoplay ▶</button>
         <span id="pdfProgress" class="muted" style="margin-left:.6rem"></span>
       </div>
 
@@ -55,10 +57,13 @@
         </div>
       </div>
 
+      <div id="thumbs" class="thumbs" aria-hidden="false"></div>
+
       <div class="slide-actions">
-        <div>
+        <div style="display:flex;gap:1rem;align-items:center;">
           <button class="btn" id="prev">◀ Prev</button>
           <button class="btn" id="next">Next ▶</button>
+          <div id="slideCounter" class="slide-counter muted">0 / 0</div>
         </div>
         <div>
           <button class="btn" id="export">Download HTML (copy)</button>
@@ -75,7 +80,7 @@
   </footer>
 
   <script>
-    // Slide navigation + import UI
+    // Slide navigation + import UI (extended: load 1–53, thumbnails, autoplay)
     (function(){
       const slidesContainer = document.getElementById('slidesContainer');
       const prevBtn = document.getElementById('prev');
@@ -85,9 +90,38 @@
       const uploadInput = document.getElementById('slideUpload');
       const clearBtn = document.getElementById('clearSlides');
       const dropZone = document.getElementById('dropZone');
+      const loadSlidesBtn = document.getElementById('loadSlides');
+      const autoplayBtn = document.getElementById('toggleAutoplay');
+      const thumbsContainer = document.getElementById('thumbs');
+      const slideCounter = document.getElementById('slideCounter');
+      const pdfProgress = document.getElementById('pdfProgress');
 
       function getSlides(){ return Array.from(slidesContainer.querySelectorAll('.slide')); }
       let currentIdx = 0;
+      let autoplayId = null;
+
+      function updateCounter(){
+        const slides = getSlides();
+        slideCounter.textContent = (slides.length ? (currentIdx+1)+' / '+slides.length : '0 / 0');
+      }
+
+      function updateThumbnails(){
+        thumbsContainer.innerHTML = '';
+        const slides = getSlides();
+        slides.forEach((s, i)=>{
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.title = `Slide ${i+1}`;
+          btn.className = i===currentIdx ? 'active' : '';
+          const img = s.querySelector('img.slide-image');
+          const thumb = document.createElement('img');
+          thumb.src = img ? img.src : 'assets/hero.jpg';
+          thumb.alt = `Slide ${i+1}`;
+          btn.appendChild(thumb);
+          btn.addEventListener('click', ()=>{ show(i); });
+          thumbsContainer.appendChild(btn);
+        });
+      }
 
       function show(i){
         const slides = getSlides();
@@ -96,18 +130,21 @@
         const idx = (i + slides.length) % slides.length;
         slides[idx].classList.add('active');
         currentIdx = idx;
+        updateCounter();
+        // highlight thumb
+        Array.from(thumbsContainer.children).forEach((b,bi)=> b.classList.toggle('active', bi===currentIdx));
       }
 
       // keep first slide active when available
       if(getSlides().length) show(0);
 
-      function createImageSlide(dataURL, name){
+      function createImageSlide(src, name){
         const slide = document.createElement('div');
         slide.className = 'slide';
 
         const img = document.createElement('img');
         img.className = 'slide-image';
-        img.src = dataURL;
+        img.src = src;
         img.alt = name;
 
         const h3 = document.createElement('h3');
@@ -124,6 +161,7 @@
         slide.appendChild(content);
 
         slidesContainer.appendChild(slide);
+        updateThumbnails();
         show(getSlides().length-1);
       }
 
@@ -172,21 +210,57 @@
       clearBtn.addEventListener('click', ()=>{
         if(!confirm('Clear all slides?')) return;
         slidesContainer.innerHTML = '';
+        thumbsContainer.innerHTML = '';
+        updateCounter();
       });
 
       openIndexBtn.addEventListener('click', ()=>{ window.location.href='index.html' });
 
-      // Import PDF pages as images using PDF.js
-      const importPdfBtn = document.getElementById('importPdf');
-      const pdfProgress = document.getElementById('pdfProgress');
+      // Auto-load numbered slides (1..53) from assets
+      async function loadNumberedSlides(start=1, end=53){
+        pdfProgress.textContent = 'Checking images...';
+        for(let i=start;i<=end;i++){
+          const src = `assets/${i}.jpg`;
+          await new Promise(resolve=>{
+            const img = new Image();
+            img.onload = ()=>{ createImageSlide(src, `${i}`); resolve(true); };
+            img.onerror = ()=>{ resolve(false); };
+            img.src = src;
+          });
+          pdfProgress.textContent = `Loaded up to ${i}`;
+        }
+        pdfProgress.textContent = '';
+      }
 
+      loadSlidesBtn.addEventListener('click', async ()=>{
+        loadSlidesBtn.disabled = true;
+        await loadNumberedSlides(1,53);
+        loadSlidesBtn.disabled = false;
+      });
+
+      // Autoplay toggle
+      function startAutoplay(){
+        if(autoplayId) return;
+        autoplayBtn.classList.add('active');
+        autoplayBtn.textContent = 'Autoplay ⏸';
+        autoplayId = setInterval(()=> nextBtn.click(), 3500);
+      }
+      function stopAutoplay(){
+        if(!autoplayId) return;
+        clearInterval(autoplayId); autoplayId = null;
+        autoplayBtn.classList.remove('active');
+        autoplayBtn.textContent = 'Autoplay ▶';
+      }
+      autoplayBtn.addEventListener('click', ()=>{ autoplayId ? stopAutoplay() : startAutoplay(); });
+
+      // Import PDF pages as images using PDF.js (button kept for convenience)
+      const importPdfBtn = document.getElementById('importPdf');
       function loadPdfJs(){
         return new Promise((resolve, reject)=>{
           if(window.pdfjsLib) return resolve(window.pdfjsLib);
           const s = document.createElement('script');
           s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.172/pdf.min.js';
           s.onload = ()=>{
-            // Configure worker
             if(window.pdfjsLib && window.pdfjsLib.GlobalWorkerOptions){
               window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.172/pdf.worker.min.js';
             }
@@ -222,7 +296,7 @@
             await page.render({canvasContext: ctx, viewport}).promise;
             const dataURL = canvas.toDataURL('image/jpeg', 0.9);
             createImageSlide(dataURL, `Page ${i}`);
-            await new Promise(r=>setTimeout(r,50)); // small pause for UI
+            await new Promise(r=>setTimeout(r,50));
           }
           pdfProgress.textContent = `Imported ${total} pages`;
         }catch(err){
