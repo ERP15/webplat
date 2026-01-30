@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Video Presentation — Web Platforms</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <span class="ribbon">Project</span>
+        <div class="logo">Group 9</div>
+      </div>
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="video.html">Video</a>
+        <a href="report.html">Presentation</a>
+        <a href="Quiz.html">Quiz</a>
+        <a href="index.html#presentation">Members</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="presentation">
+      <div class="hero-overlay"></div>
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <h1>VIDEO<br>PRESENTATION</h1>
+          <p class="lead">Watch our project presentation video showcasing the features and implementation of our web platform.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="presentation container" style="padding:4rem 0">
+      <h2>Our Video Presentation</h2>
+      <div class="video-card">
+        <video id="projVideo" controls poster="poster.png" style="width:100%;border-radius:12px;background:var(--glass);box-shadow:0 8px 30px rgba(2,6,23,0.6);display:block">
+          <source src="presentation.mp4" type="video/mp4">
+          Your browser does not support the video tag. Add a file named <strong>presentation.mp4</strong> to the project root or replace this block with a YouTube embed iframe.
+        </video>
+        <div class="video-instructions">
+          <p><strong>How to update:</strong> Place your MP4 at <code>/presentation.mp4</code> or replace the <code>&lt;video&gt;</code> with an iframe using your YouTube embed link.</p>
+          <p class="muted" style="margin-top:0.5rem">Example YouTube embed: <code>&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID"&gt;&lt;/iframe&gt;</code></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Made by Team — Web Platforms</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

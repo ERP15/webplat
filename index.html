@@ -12,83 +12,116 @@
     <div class="container topbar-inner">
       <div class="brand">
         <span class="ribbon">Project</span>
-        <div class="logo">Web Platforms</div>
+        <div class="logo">Group 9</div>
       </div>
       <nav class="main-nav">
-        <a href="#home" class="active">Home</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#presentation">Presentation</a>
-        <a href="report.html">Report</a>
-        <a href="#contact">Contact</a>
+        <a href="index.html">Home</a>
+        <a href="video.html">Video</a>
+        <a href="report.html">Presentation</a>
+        <a href="Quiz.html">Quiz</a>
+        <a href="#presentation">Members</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero flipped" id="home">
+    <section class="hero" id="home">
       <div class="hero-overlay"></div>
       <div class="container hero-inner">
         <div class="hero-content">
-          <h1>WELCOME TO WEB PLATFORMS</h1>
+          <h1>WELCOME<br>TO WEB<br>PLATFORMS</h1>
           <p class="lead">Exploring modern web platforms, best practices, and our project demo — built with a techy, modern design.</p>
           <div class="hero-actions">
-            <a class="cta" href="#presentation">Watch Presentation</a>
-            <a class="cta ghost" href="report.html">Open Report</a>
+            <a class="cta" href="#gallery">Lets Go!</a>
+          
           </div>
         </div>
       </div>
     </section>
 
     <section class="cards-section container" id="gallery">
-      <h2>Explore Highlights</h2>
+      <h2>Inclusion of the Website</h2>
       <p class="muted">Quick preview of content and resources — click any card to open details.</p>
 
       <div class="cards-grid">
-        <article class="card">
-          <div class="card-media" style="background-image:linear-gradient(180deg,#fbc2eb 0%,#a6c1ee 100%)"></div>
-          <div class="card-body">
-            <h3>Project Overview</h3>
-            <p class="muted">Short summary and goals of our platform.</p>
-          </div>
-        </article>
+        <a href="report.html" class="card-link">
+          <article class="card">
+            <div class="card-media" style="background-image:linear-gradient(180deg,#fbc2eb 0%,#a6c1ee 100%)"></div>
+            <div class="card-body">
+              <h3>Project Presentation</h3>
+              <p class="muted">Short summary and goals of our platform.</p>
+            </div>
+          </article>
+        </a>
 
-        <article class="card">
-          <div class="card-media" style="background-image:linear-gradient(180deg,#fad0c4 0%,#ffd1ff 100%)"></div>
-          <div class="card-body">
-            <h3>Demo Clips</h3>
-            <p class="muted">Short clips from the project video and demos.</p>
-          </div>
-        </article>
+        <a href="video.html" class="card-link">
+          <article class="card">
+            <div class="card-media" style="background-image:linear-gradient(180deg,#fad0c4 0%,#ffd1ff 100%)"></div>
+            <div class="card-body">
+              <h3>Video Presentation</h3>
+              <p class="muted">Short clips from the project video and demos.</p>
+            </div>
+          </article>
+        </a>
 
+        <a href="quiz.html" class="card-link">
         <article class="card">
           <div class="card-media" style="background-image:linear-gradient(180deg,#ffecd2 0%,#fcb69f 100%)"></div>
           <div class="card-body">
-            <h3>Design System</h3>
-            <p class="muted">Components, colors and guidelines used in the project.</p>
+            <h3>Quiz</h3>
+              <p class="muted">Test your knowledge with our interactive quiz.</p>
           </div>
         </article>
 
-        <article class="card highlight">
-          <div class="card-media" style="background:linear-gradient(90deg,#ffd200,#fff4b1)"></div>
-          <div class="card-body">
-            <h3>Explore Our Slides</h3>
-            <p class="muted">Open the editable slide deck and guidelines.</p>
-          </div>
-        </article>
-
-all      </div>
+        <a href="#presentation" class="card-link">
+          <article class="card highlight">
+            <div class="card-media" style="background:linear-gradient(90deg,#ffd200,#fff4b1)"></div>
+            <div class="card-body">
+              <h3>Members</h3>
+              <p class="muted">People who contributed to this project.</p>
+            </div>
+          </article>
+        </a>
+      </div>
     </section>
 
-    <section id="presentation" class="presentation container">
-      <h2>Our Video Presentation</h2>
-      <div class="video-card">
-        <video id="projVideo" controls poster="poster.png">
-          <source src="presentation.mp4" type="video/mp4">
-          Your browser does not support the video tag. Add a file named <strong>presentation.mp4</strong> to the project root or replace this block with a YouTube embed iframe.
-        </video>
-        <div class="video-instructions">
-          <p><strong>How to update:</strong> Place your MP4 at <code>/presentation.mp4</code> or replace the <code>&lt;video&gt;</code> with an iframe using your YouTube embed link.</p>
-        </div>
+    <section id="presentation" class="members-section container">
+      <h2>Our Team</h2>
+      <p class="muted">Meet the members behind this project.</p>
+      
+      <div class="members-grid">
+        <article class="member-card">
+          <div class="member-image">
+            <img src="assets/neo1.png" alt="Team Member">
+          </div>
+          <div class="member-info">
+            <h3 class="member-name">John Neo Bagon</h3>
+            <p class="member-role">Member</p>
+            <p class="member-section">BSIT - S - 3A</p>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-image">
+            <img src="assets/josh.png" alt="Team Member">
+          </div>
+          <div class="member-info">
+            <h3 class="member-name">Josh Bernabe</h3>
+            <p class="member-role">Member</p>
+            <p class="member-section">BSIT - S - 3A </p>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-image">
+            <img src="assets/emma1.png" alt="Team Member">
+          </div>
+          <div class="member-info">
+            <h3 class="member-name">Emma Rose Pascua</h3>
+            <p class="member-role">Member</p>
+            <p class="member-section">BSIT - S - 3A</p>
+          </div>
+        </article>
       </div>
     </section>
   </main>

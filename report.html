@@ -8,66 +8,73 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <div class="logo">Web Platforms</div>
-      <nav class="site-nav">
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <span class="ribbon">Project</span>
+        <div class="logo">Group 9</div>
+      </div>
+      <nav class="main-nav">
         <a href="index.html">Home</a>
+        <a href="video.html">Video</a>
+        <a href="report.html">Presentation</a>
+        <a href="Quiz.html">Quiz</a>
+        <a href="index.html#presentation">Members</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
-    <section class="guidelines">
-      <h2>Report / Presentation Guidelines</h2>
-      <ul>
-        <li><strong>Structure:</strong> Title slide, Agenda, Problem, Approach, Demo, Results, Conclusion, References, Contact.</li>
-        <li><strong>Design:</strong> Keep slides minimal — 3–6 bullet points per slide, large fonts, consistent headers, use our techy color palette.</li>
-        <li><strong>Media:</strong> Embed the project video on the title or demo slide. For large videos, link to an external host (YouTube/Vimeo) or include a short preview.</li>
-        <li><strong>Accessibility:</strong> High contrast, readable fonts, and descriptive alt text for images.</li>
-        <li><strong>Export:</strong> To create a .pptx, copy slide content into PowerPoint or use tools that convert HTML to PPTX. Keep images and fonts local.</li>
-      </ul>
+    <section class="hero flipped" id="presentation">
+      <div class="hero-overlay"></div>
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <h1>PRESENTATION</h1>
+          <p class="lead">Browse the slides and rehearse your talk. Use the next / previous controls to step through slides; press <strong>Enter</strong> to advance.</p>
+          <div class="hero-actions">
+            <a class="cta" href="#slidesViewer">Start Slides</a>
+            <button class="cta ghost" id="practiceBtn">Practice Questions</button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="slides">
-      <h2>Interactive Slide Deck (editable)</h2>
-      <p class="muted">Click any text to edit it. Upload slide images to create editable slides, or drag & drop them into the area below.</p>
+
 
       <div class="import-controls">
-        <label class="upload-btn">Upload Slides<input id="slideUpload" type="file" accept="image/*" multiple hidden></label>
-        <button class="btn" id="loadSlides">Load slides 1–53</button>
-        <button class="btn" id="importPdf">Import PDF Pages</button>
-        <button class="btn" id="clearSlides">Clear Slides</button>
-        <span class="muted">Original PDF removed from repository</span>
-        <button class="btn" id="toggleAutoplay">Autoplay ▶</button>
-        <span id="pdfProgress" class="muted" style="margin-left:.6rem"></span>
+        <span class="muted">Slides pre-loaded from local assets (1–53)</span>
+        <button class="btn" id="export">Download HTML (copy)</button>
       </div>
 
-      <div id="dropZone" class="drop-zone">Drop slide images here or click <strong>Upload Slides</strong></div>
-
-      <div id="slidesContainer">
-        <div class="slide active" data-slide="1">
-          <h3 contenteditable="true">Title Slide — Web Platforms</h3>
-          <div class="content" contenteditable="true">Team name • Date • Short tagline about the project</div>
-        </div>
-
-        <div class="slide" data-slide="2">
-          <h3 contenteditable="true">Agenda</h3>
-          <div class="content" contenteditable="true">1. Overview • 2. Problem • 3. Solution • 4. Demo • 5. Results</div>
+      <div class="slides-viewer" id="slidesViewer">
+        <div class="slide-frame" id="slideFrame" aria-live="polite">
+          <div class="slide-inner" id="slideInner"></div>
+          <div class="slide-meta" id="slideMeta">
+            <div class="meta-text">
+              <div class="title">Slide 0</div>
+              <div class="desc muted">No notes</div>
+            </div>
+            <div class="meta-controls">
+              <button class="btn" id="prev">Prev</button>
+              <div id="slideIndicator" class="muted" style="margin:0 .8rem">0 / 0</div>
+              <button class="btn primary" id="next">Next</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div id="thumbs" class="thumbs" aria-hidden="false"></div>
-
-      <div class="slide-actions">
-        <div style="display:flex;gap:1rem;align-items:center;">
-          <button class="btn" id="prev">◀ Prev</button>
-          <button class="btn" id="next">Next ▶</button>
-          <div id="slideCounter" class="slide-counter muted">0 / 0</div>
-        </div>
-        <div>
-          <button class="btn" id="export">Download HTML (copy)</button>
-          <button class="btn primary" id="openIndex">Open Home</button>
+      <!-- Practice questions modal -->
+      <div id="practiceModal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+          <button class="modal-close" id="closePractice">✕</button>
+          <h3>Practice Questions</h3>
+          <ol>
+            <li>What is the core problem the project solves?</li>
+            <li>Describe your approach in 2 sentences.</li>
+            <li>What metrics or evidence show success?</li>
+          </ol>
+          <p class="muted">Use these to rehearse speaking points. Replace with your own questions if needed.</p>
         </div>
       </div>
     </section>
@@ -80,237 +87,74 @@
   </footer>
 
   <script>
-    // Slide navigation + import UI (extended: load 1–53, thumbnails, autoplay)
+    // Single-slide viewer: preload numbered images and show one slide with next/prev controls
     (function(){
-      const slidesContainer = document.getElementById('slidesContainer');
+      const slideFrame = document.getElementById('slideFrame');
       const prevBtn = document.getElementById('prev');
       const nextBtn = document.getElementById('next');
+      const slideIndicator = document.getElementById('slideIndicator');
+      const practiceBtn = document.getElementById('practiceBtn');
+      const practiceModal = document.getElementById('practiceModal');
+      const closePractice = document.getElementById('closePractice');
       const exportBtn = document.getElementById('export');
       const openIndexBtn = document.getElementById('openIndex');
-      const uploadInput = document.getElementById('slideUpload');
-      const clearBtn = document.getElementById('clearSlides');
-      const dropZone = document.getElementById('dropZone');
-      const loadSlidesBtn = document.getElementById('loadSlides');
-      const autoplayBtn = document.getElementById('toggleAutoplay');
-      const thumbsContainer = document.getElementById('thumbs');
-      const slideCounter = document.getElementById('slideCounter');
-      const pdfProgress = document.getElementById('pdfProgress');
 
-      function getSlides(){ return Array.from(slidesContainer.querySelectorAll('.slide')); }
-      let currentIdx = 0;
-      let autoplayId = null;
+      const slides = [];
+      let idx = 0;
 
-      function updateCounter(){
-        const slides = getSlides();
-        slideCounter.textContent = (slides.length ? (currentIdx+1)+' / '+slides.length : '0 / 0');
+      function updateIndicator(){ slideIndicator.textContent = (slides.length? (idx+1)+' / '+slides.length : '0 / 0'); }
+
+      function render(){
+        const inner = document.getElementById('slideInner');
+        const metaTitle = document.querySelector('#slideMeta .title');
+        const metaDesc = document.querySelector('#slideMeta .desc');
+        if(slides.length === 0){ inner.innerHTML = '<p class="muted">No slides found in assets (1–53).</p>'; if(metaTitle) metaTitle.textContent = 'No slides'; if(metaDesc) metaDesc.textContent = ''; updateIndicator(); return; }
+        const s = slides[idx];
+        inner.innerHTML = '';
+        const slide = document.createElement('div'); slide.className='slide';
+        const img = document.createElement('img'); img.className='slide-image'; img.src = s.src; img.alt = s.name;
+        const content = document.createElement('div'); content.className='content'; content.setAttribute('contenteditable','true'); content.textContent = (s.desc || '');
+        slide.appendChild(img); slide.appendChild(content);
+        inner.appendChild(slide);
+        if(metaTitle) metaTitle.textContent = s.name;
+        if(metaDesc) metaDesc.textContent = (s.desc || '');
+        updateIndicator();
       }
 
-      function updateThumbnails(){
-        thumbsContainer.innerHTML = '';
-        const slides = getSlides();
-        slides.forEach((s, i)=>{
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.title = `Slide ${i+1}`;
-          btn.className = i===currentIdx ? 'active' : '';
-          const img = s.querySelector('img.slide-image');
-          const thumb = document.createElement('img');
-          thumb.src = img ? img.src : 'assets/hero.jpg';
-          thumb.alt = `Slide ${i+1}`;
-          btn.appendChild(thumb);
-          btn.addEventListener('click', ()=>{ show(i); });
-          thumbsContainer.appendChild(btn);
-        });
-      }
-
-      function show(i){
-        const slides = getSlides();
-        if(slides.length === 0) return;
-        slides.forEach(s=>s.classList.remove('active'));
-        const idx = (i + slides.length) % slides.length;
-        slides[idx].classList.add('active');
-        currentIdx = idx;
-        updateCounter();
-        // highlight thumb
-        Array.from(thumbsContainer.children).forEach((b,bi)=> b.classList.toggle('active', bi===currentIdx));
-      }
-
-      // keep first slide active when available
-      if(getSlides().length) show(0);
-
-      function createImageSlide(src, name){
-        const slide = document.createElement('div');
-        slide.className = 'slide';
-
-        const img = document.createElement('img');
-        img.className = 'slide-image';
-        img.src = src;
-        img.alt = name;
-
-        const h3 = document.createElement('h3');
-        h3.setAttribute('contenteditable','true');
-        h3.textContent = name.replace(/\.[^/.]+$/, "");
-
-        const content = document.createElement('div');
-        content.className = 'content';
-        content.setAttribute('contenteditable','true');
-        content.innerHTML = 'Paste slide text here or edit...';
-
-        slide.appendChild(img);
-        slide.appendChild(h3);
-        slide.appendChild(content);
-
-        slidesContainer.appendChild(slide);
-        updateThumbnails();
-        show(getSlides().length-1);
-      }
-
-      uploadInput.addEventListener('change', (e)=>{
-        Array.from(e.target.files).forEach(file=>{
-          const reader = new FileReader();
-          reader.onload = function(ev){ createImageSlide(ev.target.result, file.name); }
-          reader.readAsDataURL(file);
-        })
-        uploadInput.value = '';
-      });
-
-      // drag & drop
-      if(dropZone){
-        ['dragenter','dragover'].forEach(ev=>dropZone.addEventListener(ev, e=>{ e.preventDefault(); dropZone.classList.add('dragover'); }));
-        ['dragleave','drop'].forEach(ev=>dropZone.addEventListener(ev, e=>{ e.preventDefault(); dropZone.classList.remove('dragover'); }));
-        dropZone.addEventListener('drop', e=>{
-          const files = Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));
-          files.forEach(file=>{
-            const reader = new FileReader();
-            reader.onload = function(ev){ createImageSlide(ev.target.result, file.name); }
-            reader.readAsDataURL(file);
-          })
-        });
-      }
-
-      prevBtn.addEventListener('click', ()=>{ show(currentIdx-1); });
-      nextBtn.addEventListener('click', ()=>{ show(currentIdx+1); });
-
-      // keyboard navigation
-      document.addEventListener('keydown', (e)=>{
-        if(e.key==='ArrowRight') nextBtn.click();
-        if(e.key==='ArrowLeft') prevBtn.click();
-      });
-
-      exportBtn.addEventListener('click', ()=>{
-        const slidesHTML = getSlides().map(s=>s.outerHTML).join('\n\n');
-        const html = `<!doctype html><html><head><meta charset="utf-8"><title>Exported Slides</title><style>body{font-family:Inter,system-ui;padding:2rem;background:#fff;color:#000} .slide{page-break-after:always;margin-bottom:2rem}</style></head><body><!-- Exported slides -->${slidesHTML}</body></html>`;
-        const blob = new Blob([html],{type:'text/html'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'slides.html';
-        a.click();
-      });
-
-      clearBtn.addEventListener('click', ()=>{
-        if(!confirm('Clear all slides?')) return;
-        slidesContainer.innerHTML = '';
-        thumbsContainer.innerHTML = '';
-        updateCounter();
-      });
-
-      openIndexBtn.addEventListener('click', ()=>{ window.location.href='index.html' });
-
-      // Auto-load numbered slides (1..53) from assets
-      async function loadNumberedSlides(start=1, end=53){
-        pdfProgress.textContent = 'Checking images...';
-        for(let i=start;i<=end;i++){
+      async function preload(){
+        for(let i=1;i<=53;i++){
           const src = `assets/${i}.jpg`;
           await new Promise(resolve=>{
             const img = new Image();
-            img.onload = ()=>{ createImageSlide(src, `${i}`); resolve(true); };
-            img.onerror = ()=>{ resolve(false); };
+            img.onload = ()=>{ slides.push({src,name:`Slide ${i}`, desc: ''}); resolve(true); };
+            img.onerror = ()=> resolve(false);
             img.src = src;
           });
-          pdfProgress.textContent = `Loaded up to ${i}`;
         }
-        pdfProgress.textContent = '';
+        // If no slides found, show helpful message
+        if(slides.length === 0){ document.getElementById('slideFrame').classList.add('empty'); }
+        render();
       }
 
-      loadSlidesBtn.addEventListener('click', async ()=>{
-        loadSlidesBtn.disabled = true;
-        await loadNumberedSlides(1,53);
-        loadSlidesBtn.disabled = false;
+      if(prevBtn) prevBtn.addEventListener('click', ()=>{ if(slides.length){ idx = (idx-1+slides.length)%slides.length; render(); } });
+      if(nextBtn) nextBtn.addEventListener('click', ()=>{ if(slides.length){ idx = (idx+1)%slides.length; render(); } });
+
+      // keyboard: ArrowLeft/Right and Enter to advance
+      document.addEventListener('keydown', e => { if(e.key === 'ArrowRight' || e.key === 'Enter') { if(nextBtn) nextBtn.click(); } if(e.key === 'ArrowLeft') { if(prevBtn) prevBtn.click(); } });
+
+      // Practice modal
+      if(practiceBtn && practiceModal) practiceBtn.addEventListener('click', ()=>{ practiceModal.setAttribute('aria-hidden','false'); practiceModal.classList.add('open'); });
+      if(closePractice) closePractice.addEventListener('click', ()=>{ practiceModal.setAttribute('aria-hidden','true'); practiceModal.classList.remove('open'); });
+      if(practiceModal) practiceModal.addEventListener('click', (e)=>{ if(e.target === practiceModal) { practiceModal.setAttribute('aria-hidden','true'); practiceModal.classList.remove('open'); } });
+
+      if(exportBtn) exportBtn.addEventListener('click', ()=>{
+        const html = `<!doctype html><html><head><meta charset="utf-8"><title>Exported Slides</title></head><body>${slides.map(s=>`<div class="slide"><img src="${s.src}"><h3>${s.name}</h3></div>`).join('\n')}</body></html>`;
+        const blob = new Blob([html],{type:'text/html'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'slides.html'; a.click();
       });
 
-      // Autoplay toggle
-      function startAutoplay(){
-        if(autoplayId) return;
-        autoplayBtn.classList.add('active');
-        autoplayBtn.textContent = 'Autoplay ⏸';
-        autoplayId = setInterval(()=> nextBtn.click(), 3500);
-      }
-      function stopAutoplay(){
-        if(!autoplayId) return;
-        clearInterval(autoplayId); autoplayId = null;
-        autoplayBtn.classList.remove('active');
-        autoplayBtn.textContent = 'Autoplay ▶';
-      }
-      autoplayBtn.addEventListener('click', ()=>{ autoplayId ? stopAutoplay() : startAutoplay(); });
+      if(openIndexBtn) openIndexBtn.addEventListener('click', ()=>{ window.location.href='index.html' });
 
-      // Import PDF pages as images using PDF.js (button kept for convenience)
-      const importPdfBtn = document.getElementById('importPdf');
-      function loadPdfJs(){
-        return new Promise((resolve, reject)=>{
-          if(window.pdfjsLib) return resolve(window.pdfjsLib);
-          const s = document.createElement('script');
-          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.172/pdf.min.js';
-          s.onload = ()=>{
-            if(window.pdfjsLib && window.pdfjsLib.GlobalWorkerOptions){
-              window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.172/pdf.worker.min.js';
-            }
-            resolve(window.pdfjsLib);
-          };
-          s.onerror = reject;
-          document.head.appendChild(s);
-        });
-      }
-
-      async function importPdfPages(){
-        importPdfBtn.disabled = true;
-        pdfProgress.textContent = 'Loading PDF...';
-        try{
-          await loadPdfJs();
-          pdfProgress.textContent = 'Fetching PDF...';
-          const resp = await fetch('assets/report.pdf');
-          if(!resp.ok) throw new Error('Could not fetch PDF');
-          const arrayBuffer = await resp.arrayBuffer();
-          pdfProgress.textContent = 'Parsing PDF...';
-          const loadingTask = window.pdfjsLib.getDocument({data: arrayBuffer});
-          const pdf = await loadingTask.promise;
-          const total = pdf.numPages;
-          for(let i=1;i<=total;i++){
-            pdfProgress.textContent = `Rendering page ${i} / ${total}...`;
-            const page = await pdf.getPage(i);
-            const scale = 1.5;
-            const viewport = page.getViewport({scale});
-            const canvas = document.createElement('canvas');
-            canvas.width = Math.floor(viewport.width);
-            canvas.height = Math.floor(viewport.height);
-            const ctx = canvas.getContext('2d');
-            await page.render({canvasContext: ctx, viewport}).promise;
-            const dataURL = canvas.toDataURL('image/jpeg', 0.9);
-            createImageSlide(dataURL, `Page ${i}`);
-            await new Promise(r=>setTimeout(r,50));
-          }
-          pdfProgress.textContent = `Imported ${total} pages`;
-        }catch(err){
-          console.error(err);
-          pdfProgress.textContent = 'Import failed';
-          alert('Error importing PDF: '+err.message);
-        }finally{
-          importPdfBtn.disabled = false;
-          setTimeout(()=>{ if(pdfProgress.textContent!=='') pdfProgress.textContent=''; }, 2500);
-        }
-      }
-
-      importPdfBtn.addEventListener('click', importPdfPages);
-
+      preload();
     })();
   </script>
 
