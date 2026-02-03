@@ -37,10 +37,10 @@ body{
 .hero::before{
   content: "";
   position:absolute;inset:0;z-index:0;
-  background-image: url('assets/hero.jpg');
+  background-image: url('assets/heross.png');
   background-size: cover;
   background-position: right center;
-  transform: scaleX(-1); /* flip horizontally */
+  
   transform-origin: center;
   filter: contrast(1.02) saturate(1.05);
 }
