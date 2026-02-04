@@ -33,7 +33,7 @@
           <p class="lead">Browse the slides and rehearse your talk. Use the next / previous controls to step through slides; press <strong>Enter</strong> to advance.</p>
           <div class="hero-actions">
             <a class="cta" href="#slidesViewer">Start Slides</a>
-            <button class="cta ghost" id="practiceBtn">Practice Questions</button>
+            <a class="cta" href="quiz.html">Start  Quiz</a>
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@
 
 
       <div class="import-controls">
-        <span class="muted">Slides pre-loaded from local assets (1–53)</span>
+        <span class="muted">Slides pre-loaded from local assets (1–44)</span>
         <button class="btn" id="export">Download HTML (copy)</button>
       </div>
 
@@ -122,7 +122,7 @@
       }
 
       async function preload(){
-        for(let i=1;i<=53;i++){
+        for(let i=1;i<=44;i++){
           const src = `assets/${i}.jpg`;
           await new Promise(resolve=>{
             const img = new Image();

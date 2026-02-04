@@ -45,7 +45,7 @@ body{
   filter: contrast(1.02) saturate(1.05);
 }
 /* stronger overlay for legibility on busy images */
-.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(2,6,23,0.72),rgba(2,6,23,0.78)), radial-gradient(600px 300px at 15% 25%, rgba(0,0,0,0.15), transparent)}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(2,6,23,0.45),rgba(2,6,23,0.5)), radial-gradient(600px 300px at 15% 25%, rgba(0,0,0,0.05), transparent)}
 .hero-inner{position:relative;z-index:2;width:100%}
 .hero-content{max-width:680px}
 .hero h1{font-size:2.6rem;margin:0 0 1rem;letter-spacing:1px;color:#ffffff;text-shadow:0 10px 30px rgba(2,6,23,0.85);line-height:1.2}
@@ -57,7 +57,7 @@ body{
 .cta.ghost:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.2)}
 
 /* Add a subtle fade for very small devices */
-@media (max-width:480px){.hero-overlay{background:linear-gradient(180deg,rgba(2,6,23,0.86),rgba(2,6,23,0.9))}}
+@media (max-width:480px){.hero-overlay{background:linear-gradient(180deg,rgba(2,6,23,0.55),rgba(2,6,23,0.65))}}
 
 
 /* Cards */
